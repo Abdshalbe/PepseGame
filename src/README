@@ -1,0 +1,58 @@
+taqi_ahmad77,abd.shalbe
+325854990,212867089
+
+pepse.world.trees Package - Implementation of Trees in the Game World
+The trees package is responsible for the creation, management, and display of trees within the game world.
+It was meticulously designed to ensure consistent and reproducible tree generation,
+with a clear separation of concerns among its various components.
+
+Different Classes in Tree Creation:
+This package includes the following classes, each fulfilling a specific role in the tree creation process:
+
+Flora: This is the central class responsible for creating trees in the game world.
+It determines where trees should be planted using reproducible random generation logic based on a seed.
+It creates the tree trunks (Trunk) and leaf canopies (Leaf) and adds them to the game system.
+This class also handles the creation of fruits (Fruit) on the leaves and prevents tree generation within a
+safe zone around the player's starting position.
+Trunk: This class represents the tree trunk. It is a static,
+immovable object that the avatar should collide with.
+It provides a static method for creating a Block object to serve as the trunk.
+Leaf: This class represents a single leaf on a tree.
+Leaves have a visual representation and animate with subtle wind movements.
+It also provides a static method for creating a Block object that functions as a leaf and applies animations
+to it.
+Fruit: This class represents a fruit that can be collected by the avatar for an energy boost.
+Fruits reappear after a certain amount of time after being collected.
+The class handles collision detection with the player, removing the fruit from the game when eaten,
+and its subsequent reappearance.
+Relationships Between Classes:
+The classes in this package work together in a modular fashion:
+
+Flora uses Trunk, Leaf, and Fruit: The Flora class is "responsible" for assembling the trees.
+It calls the static creation methods in the Trunk, Leaf,
+and Fruit classes to generate the individual components of each tree (trunk, leaves, and fruits).
+It receives GameObjectAdder and GameObjectRemover functions in its constructor,
+allowing it to add and remove objects from the world independently of the overall game system.
+Leaf and Fruit are GameObjects: They inherit from GameObject (directly or indirectly via Block),
+which allows the game system to treat them as renderable objects with physical behavior (collisions,
+animations).
+Fruit uses Flora.GameObjectAdder and Flora.GameObjectRemover: When a fruit is collected,
+it uses the remover to disappear and later the adder to reappear.
+This demonstrates a design pattern where objects know how to add and remove themselves through mechanisms
+passed to them, rather than being directly dependent on the game manager.
+Use of Design Patterns:
+Yes, a specific design pattern has been utilized:
+
+Dependency Injection: The Flora class (and also Fruit) receives its dependencies (GameObjectAdder,
+GameObjectRemover, TerranGetter) through its constructor.
+Instead of creating new instances of these components internally or relying on a global mechanism,
+it receives them as arguments. This allows for:
+Separation of Concerns: The Flora class does not need to know how to add or remove objects from the overall
+system; it merely receives the capability to do so.
+Easier Testing: Mocks or stubs of GameObjectAdder, GameObjectRemover,
+and TerranGetter can be injected when testing the Flora class, which simplifies unit testing.
+Flexibility: The implementation of how objects are added or removed can be swapped without modifying the
+Flora class itself.
+Additionally, the use of Functional Interfaces such as GameObjectAdder, GameObjectRemover,
+and TerranGetter is a common pattern in Java 8 and later, enabling the passing of behaviors as functions,
+which also supports the principles of separation of concerns and flexibility.
