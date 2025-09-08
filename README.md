@@ -89,4 +89,4 @@ java -cp bin pepse.PepseGameManager
 ---
 
 ## 👤 Author
-Developed by **[Abd Shalbe](https://github.com/Abdshalbe)**  
+Developed by **[Abd Shalbe,Taqi obidat](https://github.com/Abdshalbe,https://github.com/Taqi2002)**  
